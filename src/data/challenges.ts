@@ -5,7 +5,7 @@ export interface Challenge {
     description: string;
     difficulty: 'Easy' | 'Medium' | 'Hard' | 'Expert';
     xp: number;
-    category: 'Network' | 'System' | 'Web' | 'Forensics' | 'Scripting';
+    category: 'Network' | 'System' | 'Web' | 'Forensics' | 'Scripting' | 'Security';
     command: string; // Expected command or validation trigger
     type: 'terminal'; // Currently all are terminal based for simplicity in this iteration
     hint?: string;

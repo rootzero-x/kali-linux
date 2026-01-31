@@ -159,7 +159,7 @@ export const ProfilePage = () => {
                         </CardHeader>
                         <CardContent>
                             <div className="space-y-0">
-                                {activityLog.length > 0 ? activityLog.slice(0, 8).map((log, i) => (
+                                {activityLog.length > 0 ? activityLog.slice(0, 8).map((log) => (
                                     <div key={log.id} className="flex items-center p-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-colors group border-b border-slate-50 dark:border-slate-800/50 last:border-0">
                                         <div className="mr-4 bg-slate-100 dark:bg-slate-800 p-2.5 rounded-full text-slate-400 group-hover:text-kali-500 group-hover:bg-kali-50 dark:group-hover:bg-kali-900/20 transition-colors">
                                             <Terminal size={16} />

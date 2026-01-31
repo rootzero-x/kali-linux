@@ -31,8 +31,8 @@ export const AcademyProvider: React.FC<{ children: React.ReactNode }> = ({ child
         return unsubscribe;
     }, []);
 
-    const [currentModuleId, setCurrentModuleId] = useState<string | null>(null);
-    const [currentLessonId, setCurrentLessonId] = useState<string | null>(null);
+    const [currentModuleId] = useState<string | null>(null);
+    const [currentLessonId] = useState<string | null>(null);
 
     const getLessonProgress = (lessonId: string): LessonProgress => {
         return state.lessonProgress[lessonId] || {

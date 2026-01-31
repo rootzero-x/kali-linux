@@ -39,7 +39,6 @@ export const LessonPage = () => {
     const [subTab, setSubTab] = useState('practice');
     const [quizAnswers, setQuizAnswers] = useState<Record<string, number>>({});
     const [quizResult, setQuizResult] = useState<'pass' | 'fail' | null>(null);
-    const [terminalOutput, setTerminalOutput] = useState('');
 
     const progress = getLessonProgress(lessonId || '');
 

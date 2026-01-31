@@ -22,6 +22,7 @@ export interface Lesson {
     practiceTasks: string[]; // List of checkboxes
     terminalTasks: TerminalTask[];
     quiz: QuizQuestion[];
+    xp: number;
 }
 
 export interface Module {
