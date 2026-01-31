@@ -11,14 +11,21 @@ const TabsContext = createContext<TabsContextType | undefined>(undefined);
 
 export const Tabs = ({
     defaultValue,
+    value,
+    onValueChange,
     children,
     className
 }: {
-    defaultValue: string,
+    defaultValue?: string,
+    value?: string,
+    onValueChange?: (value: string) => void,
     children: React.ReactNode,
     className?: string
 }) => {
-    const [activeTab, setActiveTab] = useState(defaultValue);
+    const [internalActiveTab, setInternalActiveTab] = useState(defaultValue || '');
+
+    const activeTab = value !== undefined ? value : internalActiveTab;
+    const setActiveTab = onValueChange || setInternalActiveTab;
 
     return (
         <TabsContext.Provider value={{ activeTab, setActiveTab }}>
@@ -37,7 +44,17 @@ export const TabsList = ({ children, className }: { children: React.ReactNode, c
     );
 };
 
-export const TabsTrigger = ({ value, children, className }: { value: string, children: React.ReactNode, className?: string }) => {
+export const TabsTrigger = ({
+    value,
+    children,
+    className,
+    disabled
+}: {
+    value: string,
+    children: React.ReactNode,
+    className?: string,
+    disabled?: boolean
+}) => {
     const context = useContext(TabsContext);
     if (!context) throw new Error("TabsTrigger must be used within Tabs");
 
@@ -45,14 +62,16 @@ export const TabsTrigger = ({ value, children, className }: { value: string, chi
 
     return (
         <button
-            onClick={() => context.setActiveTab(value)}
+            onClick={() => !disabled && context.setActiveTab(value)}
+            disabled={disabled}
             className={cn(
-                "inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:ring-offset-slate-950",
+                "inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 dark:ring-offset-slate-950 relative",
+                disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer",
                 isActive ? "bg-white dark:bg-dark-bg text-slate-950 dark:text-slate-50 shadow-sm" : "hover:bg-slate-200 dark:hover:bg-slate-700/50 hover:text-slate-900 dark:hover:text-slate-100",
                 className
             )}
         >
-            {children}
+            <span className="relative z-10 flex items-center">{children}</span>
             {isActive && <motion.div layoutId="active-tab" className="absolute inset-0 bg-transparent" />}
         </button>
     );

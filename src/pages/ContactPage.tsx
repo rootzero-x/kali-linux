@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import { useLanguage } from '../contexts/LanguageContext';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
 import { Mail, Send } from 'lucide-react';
+import { SeoHead } from '../components/seo/SeoHead';
 
 export const ContactPage = () => {
-    const { t } = useLanguage();
     const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -20,8 +19,9 @@ export const ContactPage = () => {
 
     return (
         <div className="container mx-auto px-4 py-12">
+            <SeoHead title="Contact Us" description="Get in touch with the Kali Linux UZ team." />
             <div className="max-w-lg mx-auto">
-                <h1 className="text-4xl font-bold mb-8 text-center">{t('common.contact')}</h1>
+                <h1 className="text-4xl font-bold mb-8 text-center">Contact Us</h1>
 
                 <Card>
                     <CardHeader>

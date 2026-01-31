@@ -1,27 +1,21 @@
 import { useState } from 'react';
-import { useLanguage } from '../../contexts/LanguageContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Sun, Moon, Terminal, Languages } from 'lucide-react';
+import { Menu, X, Sun, Moon, Terminal } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { cn } from '../../lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const Header = () => {
-    const { t, language, setLanguage } = useLanguage();
     const { theme, toggleTheme } = useTheme();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const location = useLocation();
 
-    const toggleLanguage = () => {
-        setLanguage(language === 'uz' ? 'en' : 'uz');
-    };
-
     const navItems = [
-        { label: t('nav.home'), path: '/' },
-        { label: t('nav.learn'), path: '/roadmaps' },
-        { label: t('nav.library'), path: '/library' }, // Combined tools & commands
-        { label: t('nav.practice'), path: '/challenges' },
+        { label: 'Home', path: '/' },
+        { label: 'Academy', path: '/roadmaps' },
+        { label: 'Library', path: '/library' },
+        { label: 'Challenges', path: '/challenges' },
     ];
 
     const isActive = (path: string) => location.pathname === path;
@@ -63,18 +57,13 @@ export const Header = () => {
 
                 {/* Actions */}
                 <div className="hidden md:flex items-center gap-2">
-
-                    <Button variant="ghost" size="icon" onClick={toggleLanguage} title={language === 'uz' ? 'Switch to English' : "O'zbek tiliga o'tish"}>
-                        <span className="font-bold text-xs">{language.toUpperCase()}</span>
-                    </Button>
-
-                    <Button variant="ghost" size="icon" onClick={toggleTheme} title={theme === 'dark' ? t('common.theme_light') : t('common.theme_dark')}>
+                    <Button variant="ghost" size="icon" onClick={toggleTheme} title={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}>
                         {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
                     </Button>
 
                     <Link to="/profile">
                         <Button variant="default" size="sm" className="ml-2">
-                            {t('common.profile')}
+                            My Profile
                         </Button>
                     </Link>
                 </div>
@@ -114,10 +103,6 @@ export const Header = () => {
                             ))}
                             <div className="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-slate-800">
                                 <div className="flex items-center gap-4">
-                                    <Button variant="ghost" size="sm" onClick={toggleLanguage}>
-                                        <Languages size={16} className="mr-2" />
-                                        {language === 'uz' ? 'English' : "O'zbek"}
-                                    </Button>
                                     <Button variant="ghost" size="sm" onClick={toggleTheme}>
                                         {theme === 'dark' ? <Sun size={16} className="mr-2" /> : <Moon size={16} className="mr-2" />}
                                         {theme === 'dark' ? 'Light' : 'Dark'}

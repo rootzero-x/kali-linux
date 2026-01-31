@@ -7,29 +7,37 @@ interface ThemeContextType {
     toggleTheme: () => void;
 }
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+// Safe default context to prevent crashes
+const defaultContext: ThemeContextType = {
+    theme: 'dark',
+    toggleTheme: () => console.warn('ThemeProvider is missing. Theme toggling will not work.')
+};
+
+const ThemeContext = createContext<ThemeContextType>(defaultContext);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-    const [theme, setTheme] = useState<Theme>('dark'); // Default to dark for cybersecurity vibe
+    // Initialize state directly from localStorage to prevent flash
+    const [theme, setTheme] = useState<Theme>(() => {
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('kali_theme') as Theme;
+            if (saved) return saved;
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        return 'dark';
+    });
 
     useEffect(() => {
-        const savedTheme = localStorage.getItem('kali_theme') as Theme;
-        if (savedTheme) {
-            setTheme(savedTheme);
-            document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+        const root = document.documentElement;
+        if (theme === 'dark') {
+            root.classList.add('dark');
         } else {
-            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const initialTheme = systemPrefersDark ? 'dark' : 'light';
-            setTheme(initialTheme);
-            document.documentElement.classList.toggle('dark', initialTheme === 'dark');
+            root.classList.remove('dark');
         }
-    }, []);
+        localStorage.setItem('kali_theme', theme);
+    }, [theme]);
 
     const toggleTheme = () => {
-        const newTheme = theme === 'light' ? 'dark' : 'light';
-        setTheme(newTheme);
-        localStorage.setItem('kali_theme', newTheme);
-        document.documentElement.classList.toggle('dark', newTheme === 'dark');
+        setTheme(prev => prev === 'light' ? 'dark' : 'light');
     };
 
     return (
@@ -41,8 +49,6 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
 export const useTheme = () => {
     const context = useContext(ThemeContext);
-    if (context === undefined) {
-        throw new Error('useTheme must be used within a ThemeProvider');
-    }
+    // Context will fall back to defaultContext if provider is missing, so no throw needed for crash safety.
     return context;
 };

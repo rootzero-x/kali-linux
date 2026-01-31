@@ -10,13 +10,84 @@
   }
 }
 
+/* --- Global Custom Scrollbar --- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-100 dark:bg-slate-900;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 dark:bg-slate-700 rounded-full border-[2px] border-slate-100 dark:border-slate-900 transition-colors;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-kali-500 dark:bg-kali-600;
+}
+
+/* Firefox Support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #94a3b8 #0f172a;
+  /* Slate-400 Slate-900 */
+}
+
+/* --- Terminal Specific Scrollbar (Overrides) --- */
 .terminal-scroll::-webkit-scrollbar {
   width: 6px;
 }
+
 .terminal-scroll::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .terminal-scroll::-webkit-scrollbar-thumb {
   background: #333;
   border-radius: 3px;
+}
+
+.terminal-scroll::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Animations */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-reverse-slow {
+  from {
+    transform: rotate(360deg);
+  }
+
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 12s linear infinite;
+}
+
+.animate-spin-reverse-slow {
+  animation: spin-reverse-slow 15s linear infinite;
 }

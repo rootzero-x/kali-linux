@@ -2,10 +2,12 @@ import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import { Terminal } from '../components/features/Terminal';
 import { Home } from 'lucide-react';
+import { SeoHead } from '../components/seo/SeoHead';
 
 export const NotFoundPage = () => {
     return (
         <div className="container mx-auto px-4 py-20 flex flex-col items-center justify-center min-h-[60vh]">
+            <SeoHead title="404 Not Found" />
             <div className="max-w-2xl w-full text-center space-y-8">
                 <h1 className="text-6xl md:text-8xl font-black text-slate-900 dark:text-white mb-4">404</h1>
                 <p className="text-xl text-slate-600 dark:text-slate-400">

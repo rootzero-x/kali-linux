@@ -2,15 +2,20 @@ import React, { useState, useRef, useEffect } from 'react';
 import { cn } from '../../lib/utils';
 import { Terminal as TerminalIcon } from 'lucide-react';
 
-interface TerminalLine {
-    type: 'input' | 'output' | 'error' | 'system';
+export interface TerminalLine {
+    type: 'input' | 'output' | 'error' | 'system' | 'success' | 'info';
+    content: string;
+}
+
+export interface TerminalCommandResult {
+    type: 'output' | 'error' | 'success' | 'info';
     content: string;
 }
 
 interface TerminalProps {
     className?: string;
     initialLines?: TerminalLine[];
-    onCommand?: (command: string) => string | Promise<string> | null; // Return null if handled internally
+    onCommand?: (command: string) => TerminalCommandResult | Promise<TerminalCommandResult> | string | null;
     promptLabel?: string;
     height?: string;
 }
@@ -84,7 +89,7 @@ export const Terminal = ({
         }
 
         if (cmd === 'help') {
-            setLines(prev => [...prev, { type: 'output', content: 'Available commands: help, clear, whoami, date, ls, pwd' }]);
+            setLines(prev => [...prev, { type: 'info', content: 'Available commands: help, clear, whoami, date, ls, pwd' }]);
             return;
         }
 
@@ -92,7 +97,13 @@ export const Terminal = ({
         if (onCommand) {
             const result = await onCommand(cmd);
             if (result !== null) {
-                setLines(prev => [...prev, { type: result.startsWith('Error') ? 'error' : 'output', content: result }]);
+                if (typeof result === 'string') {
+                    // Backward compatibility or simple string return
+                    setLines(prev => [...prev, { type: result.startsWith('Error') ? 'error' : 'output', content: result }]);
+                } else {
+                    // Structured result
+                    setLines(prev => [...prev, { type: result.type, content: result.content }]);
+                }
                 return;
             }
         }
@@ -141,8 +152,10 @@ export const Terminal = ({
                     <div key={i} className={cn(
                         "break-words",
                         line.type === 'error' ? "text-red-400" :
-                            line.type === 'input' ? "text-white font-bold" :
-                                line.type === 'system' ? "text-blue-400" : "text-green-400"
+                            line.type === 'success' ? "text-green-400 font-bold" :
+                                line.type === 'input' ? "text-white font-bold" :
+                                    line.type === 'system' ? "text-blue-400" :
+                                        line.type === 'info' ? "text-yellow-400" : "text-slate-300"
                     )}>
                         {line.content}
                     </div>

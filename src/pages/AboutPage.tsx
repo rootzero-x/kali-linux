@@ -1,14 +1,13 @@
-import { useLanguage } from '../contexts/LanguageContext';
 import { Shield, Lock, Terminal, Globe } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/Card';
+import { SeoHead } from '../components/seo/SeoHead';
 
 export const AboutPage = () => {
-    const { t } = useLanguage();
-
     return (
         <div className="container mx-auto px-4 py-12">
+            <SeoHead title="About Us" description="Our mission to democratize cybersecurity education." />
             <div className="max-w-3xl mx-auto text-center mb-16">
-                <h1 className="text-4xl font-bold mb-6">{t('common.about')}</h1>
+                <h1 className="text-4xl font-bold mb-6">About Us</h1>
                 <p className="text-xl text-slate-600 dark:text-slate-400">
                     Empowering the next generation of cybersecurity defenders through accessible, interactive education.
                 </p>
@@ -18,7 +17,7 @@ export const AboutPage = () => {
                 <div>
                     <h2 className="text-3xl font-bold mb-4">Our Mission</h2>
                     <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
-                        Kali Linux UZ was born from a desire to democratize cybersecurity knowledge in Uzbekistan and beyond.
+                        Kali Linux UZ was born from a desire to democratize cybersecurity knowledge globally.
                         We believe that understanding defensive security is crucial in the modern digital age.
                     </p>
                     <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">

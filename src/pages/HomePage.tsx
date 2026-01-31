@@ -1,5 +1,4 @@
 import { } from 'react';
-import { useLanguage } from '../contexts/LanguageContext';
 import { useGamification } from '../contexts/GamificationContext';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -9,10 +8,10 @@ import { Button } from '../components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
 import { Terminal } from '../components/features/Terminal';
+import { SeoHead } from '../components/seo/SeoHead';
 
 export const HomePage = () => {
-    const { t } = useLanguage();
-    const { user } = useGamification();
+    const { userStreak } = useGamification();
 
     const container = {
         hidden: { opacity: 0 },
@@ -31,6 +30,7 @@ export const HomePage = () => {
 
     return (
         <div className="min-h-screen">
+            <SeoHead title="Master Kali Linux" description="The comprehensive platform to learn ethical hacking and defensive security." />
             {/* Hero Section */}
             <section className="relative pt-20 pb-32 overflow-hidden">
                 <div className="absolute inset-0 bg-hero-pattern opacity-5 dark:opacity-10 pointer-events-none" />
@@ -47,20 +47,20 @@ export const HomePage = () => {
                             </Badge>
                         </motion.div>
                         <motion.h1 variants={item} className="text-5xl md:text-6xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
-                            {t('hero.title')} <span className="text-kali-500">.</span>
+                            Master Cyber Security <span className="text-kali-500">.</span>
                         </motion.h1>
                         <motion.p variants={item} className="text-xl text-slate-600 dark:text-slate-300 max-w-lg">
-                            {t('hero.subtitle')}
+                            The comprehensive platform to learn ethical hacking, defensive security, and command line mastery completely free.
                         </motion.p>
                         <motion.div variants={item} className="flex flex-wrap gap-4 pt-4">
                             <Link to="/roadmaps">
                                 <Button size="lg" className="rounded-full px-8 text-lg font-semibold bg-kali-600 hover:bg-kali-700">
-                                    {t('hero.cta_primary')} <ArrowRight className="ml-2 h-5 w-5" />
+                                    Start Learning <ArrowRight className="ml-2 h-5 w-5" />
                                 </Button>
                             </Link>
                             <Link to="/library">
                                 <Button size="lg" variant="outline" className="rounded-full px-8 text-lg border-2">
-                                    {t('hero.cta_secondary')}
+                                    Explore Library
                                 </Button>
                             </Link>
                         </motion.div>
@@ -112,18 +112,18 @@ export const HomePage = () => {
                 <div className="container mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-slate-200 dark:divide-slate-800">
                     <div className="p-4">
                         <div className="text-4xl font-bold text-kali-600 dark:text-kali-400 mb-2">1,240+</div>
-                        <div className="text-sm text-slate-500 font-medium uppercase tracking-wider">{t('stats.users')}</div>
+                        <div className="text-sm text-slate-500 font-medium uppercase tracking-wider">Active Learners</div>
                     </div>
                     <div className="p-4">
                         <div className="text-4xl font-bold text-kali-600 dark:text-kali-400 mb-2">85+</div>
-                        <div className="text-sm text-slate-500 font-medium uppercase tracking-wider">{t('stats.lessons')}</div>
+                        <div className="text-sm text-slate-500 font-medium uppercase tracking-wider">Premium Lessons</div>
                     </div>
                     <div className="p-4">
                         <div className="text-4xl font-bold text-kali-600 dark:text-kali-400 mb-2">12</div>
-                        <div className="text-sm text-slate-500 font-medium uppercase tracking-wider">{t('stats.badges')}</div>
+                        <div className="text-sm text-slate-500 font-medium uppercase tracking-wider">Certifications</div>
                     </div>
                     <div className="p-4">
-                        <div className="text-4xl font-bold text-kali-600 dark:text-kali-400 mb-2">{user.streak}</div>
+                        <div className="text-4xl font-bold text-kali-600 dark:text-kali-400 mb-2">{userStreak}</div>
                         <div className="text-sm text-slate-500 font-medium uppercase tracking-wider">Your Streak (Day)</div>
                     </div>
                 </div>
@@ -134,7 +134,7 @@ export const HomePage = () => {
                 <div className="container mx-auto px-4">
                     <div className="flex justify-between items-end mb-12">
                         <div>
-                            <h2 className="text-3xl font-bold mb-4 text-slate-900 dark:text-white">{t('common.roadmaps')}</h2>
+                            <h2 className="text-3xl font-bold mb-4 text-slate-900 dark:text-white">Learning Paths</h2>
                             <p className="text-slate-600 dark:text-slate-400 max-w-2xl">
                                 Curated learning paths designed to take you from beginner to advanced.
                             </p>
@@ -145,11 +145,11 @@ export const HomePage = () => {
                     </div>
 
                     <div className="grid md:grid-cols-3 gap-8">
-                        {/* Fake Data for now */}
+                        {/* Real Data Links */}
                         {[
-                            { title: "Linux Fundamentals", level: "Beginner", icon: TerminalIcon, color: "text-green-500", progress: 0 },
-                            { title: "Network Analysis", level: "Intermediate", icon: Zap, color: "text-blue-500", progress: 0 },
-                            { title: "Web Exploitation", level: "Advanced", icon: Shield, color: "text-red-500", progress: 0 },
+                            { title: "Linux Fundamentals", id: "linux-fundamentals", level: "Beginner", icon: TerminalIcon, color: "text-green-500", progress: 0 },
+                            { title: "Network Analysis", id: "network-analysis", level: "Intermediate", icon: Zap, color: "text-blue-500", progress: 0 },
+                            { title: "Web Application Security", id: "web-security", level: "Advanced", icon: Shield, color: "text-red-500", progress: 0 },
                         ].map((roadmap, i) => (
                             <motion.div
                                 key={i}
@@ -158,52 +158,54 @@ export const HomePage = () => {
                                 viewport={{ once: true }}
                                 transition={{ delay: i * 0.1 }}
                             >
-                                <Card className="h-full hover:shadow-xl hover:border-kali-500/50 transition-all cursor-pointer group">
-                                    <CardHeader>
-                                        <div className="flex justify-between items-start mb-4">
-                                            <div className="p-3 bg-slate-100 dark:bg-slate-800 rounded-lg group-hover:bg-kali-50 dark:group-hover:bg-kali-900/20 transition-colors">
-                                                <roadmap.icon className={cn("h-6 w-6", roadmap.color)} />
+                                <Link to={`/roadmaps/${roadmap.id}`}>
+                                    <Card className="h-full hover:shadow-xl hover:border-kali-500/50 transition-all cursor-pointer group">
+                                        <CardHeader>
+                                            <div className="flex justify-between items-start mb-4">
+                                                <div className="p-3 bg-slate-100 dark:bg-slate-800 rounded-lg group-hover:bg-kali-50 dark:group-hover:bg-kali-900/20 transition-colors">
+                                                    <roadmap.icon className={cn("h-6 w-6", roadmap.color)} />
+                                                </div>
+                                                <Badge variant={roadmap.level === 'Beginner' ? 'success' : roadmap.level === 'Intermediate' ? 'warning' : 'destructive'}>
+                                                    {roadmap.level}
+                                                </Badge>
                                             </div>
-                                            <Badge variant={roadmap.level === 'Beginner' ? 'success' : roadmap.level === 'Intermediate' ? 'warning' : 'destructive'}>
-                                                {roadmap.level}
-                                            </Badge>
-                                        </div>
-                                        <CardTitle className="mb-2">{roadmap.title}</CardTitle>
-                                        <CardDescription>
-                                            Step-by-step guide to mastering core skills.
-                                        </CardDescription>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <div className="flex items-center justify-between text-sm text-slate-500 mb-2">
-                                            <span>0% Complete</span>
-                                            <span>0/12 Lessons</span>
-                                        </div>
-                                        <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                                            <div className="h-full bg-kali-500 w-0" />
-                                        </div>
-                                    </CardContent>
-                                </Card>
+                                            <CardTitle className="mb-2">{roadmap.title}</CardTitle>
+                                            <CardDescription>
+                                                Step-by-step guide to mastering core skills.
+                                            </CardDescription>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <div className="flex items-center justify-between text-sm text-slate-500 mb-2">
+                                                <span>Start Now</span>
+                                                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                                            </div>
+                                            <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                                                <div className="h-full bg-kali-500 w-0" />
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                </Link>
                             </motion.div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* Daily Challenge Teaser */}
-            <section className="py-12 bg-slate-900 text-white relative overflow-hidden">
-                <div className="absolute inset-0 bg-hero-pattern opacity-10 pointer-events-none" />
+            {/* Daily Challenge Teaser (FIXED FOR LIGHT MODE) */}
+            <section className="py-12 bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-white relative overflow-hidden transition-colors duration-300">
+                <div className="absolute inset-0 bg-hero-pattern opacity-5 dark:opacity-10 pointer-events-none" />
                 <div className="container mx-auto px-4 relative z-10 text-center">
-                    <div className="inline-flex items-center justify-center p-3 bg-white/10 rounded-full mb-6 backdrop-blur-sm">
-                        <Award className="text-yellow-400 mr-2" />
-                        <span className="font-bold text-yellow-400">Daily Challenge</span>
+                    <div className="inline-flex items-center justify-center p-3 bg-white dark:bg-white/10 rounded-full mb-6 backdrop-blur-sm border border-slate-200 dark:border-white/10 shadow-sm">
+                        <Award className="text-amber-600 dark:text-yellow-400 mr-2" />
+                        <span className="font-bold text-amber-600 dark:text-yellow-400">Daily Challenge</span>
                     </div>
-                    <h2 className="text-3xl md:text-4xl font-bold mb-6">Crack the Hash</h2>
-                    <p className="text-slate-300 max-w-xl mx-auto mb-8 text-lg">
+                    <h2 className="text-3xl md:text-4xl font-bold mb-6 text-slate-900 dark:text-white">Crack the Hash</h2>
+                    <p className="text-slate-600 dark:text-slate-300 max-w-xl mx-auto mb-8 text-lg">
                         Identify the type of the given hash and find the original plaintext using basic tools.
-                        Win <span className="text-yellow-400 font-bold">+50 XP</span>.
+                        Win <span className="text-amber-600 dark:text-yellow-400 font-bold">+50 XP</span>.
                     </p>
                     <Link to="/challenges">
-                        <Button className="bg-white text-slate-900 hover:bg-slate-200 px-8 py-6 text-lg font-bold">
+                        <Button className="bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200 px-8 py-6 text-lg font-bold shadow-lg transition-all">
                             Accept Challenge
                         </Button>
                     </Link>

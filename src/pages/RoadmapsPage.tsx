@@ -5,10 +5,12 @@ import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
 import { ArrowRight, BookOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { SeoHead } from '../components/seo/SeoHead';
 
 export const RoadmapsPage = () => {
     return (
         <div className="container mx-auto px-4 py-12">
+            <SeoHead title="Cyber Security Roadmaps" description="Structured learning paths for Kali Linux and Ethical Hacking." />
             <div className="mb-12 text-center max-w-2xl mx-auto">
                 <h1 className="text-4xl font-bold mb-4">Learning Roadmaps</h1>
                 <p className="text-slate-600 dark:text-slate-400 text-lg">
